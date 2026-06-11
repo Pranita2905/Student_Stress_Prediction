@@ -171,33 +171,28 @@ Developed by Pranita | Data Analyst
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-
     prediction = None
 
-    if request.method == "POST":
+    try:
+        if request.method == "POST":
+            features = np.array([[
+                float(request.form["Student_Type"]),
+                float(request.form["Sleep_Hours"]),
+                float(request.form["Study_Hours"]),
+                float(request.form["Social_Media_Hours"]),
+                float(request.form["Attendance"]),
+                float(request.form["Exam_Pressure"]),
+                float(request.form["Family_Support"]),
+                float(request.form["Month"])
+            ]])
 
-        features = np.array([[
-            float(request.form["Student_Type"]),
-            float(request.form["Sleep_Hours"]),
-            float(request.form["Study_Hours"]),
-            float(request.form["Social_Media_Hours"]),
-            float(request.form["Attendance"]),
-            float(request.form["Exam_Pressure"]),
-            float(request.form["Family_Support"]),
-            float(request.form["Month"])
-        ]])
+            pred = model.predict(features)[0]
+            prediction = str(pred)
 
-        pred = model.predict(features)[0]
+    except Exception as e:
+        prediction = f"ERROR: {str(e)}"
 
-        if pred == 1:
-            prediction = "✅ High Performance Predicted"
-        else:
-            prediction = "⚠️ Low Performance Predicted"
-
-    return render_template_string(
-        HTML,
-        prediction=prediction
-    )
+    return render_template_string(HTML, prediction=prediction)
 
 if __name__ == "__main__":
     app.run(debug=True)
