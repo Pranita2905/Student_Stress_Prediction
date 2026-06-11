@@ -4,6 +4,7 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Load SVM Model
 with open("SVM_model.pkl", "rb") as f:
     model = pickle.load(f)
 
@@ -12,21 +13,19 @@ HTML = """
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Performance Prediction</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
+font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#2563eb);
+background:linear-gradient(135deg,#0f172a,#1e40af);
 min-height:100vh;
 display:flex;
 justify-content:center;
@@ -37,7 +36,7 @@ padding:20px;
 .container{
 width:100%;
 max-width:1000px;
-background:white;
+background:#fff;
 padding:35px;
 border-radius:20px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
@@ -49,7 +48,7 @@ color:#1e40af;
 margin-bottom:10px;
 }
 
-.subtitle{
+p{
 text-align:center;
 color:#64748b;
 margin-bottom:25px;
@@ -64,7 +63,7 @@ gap:15px;
 input,select{
 width:100%;
 padding:12px;
-border:1px solid #d1d5db;
+border:1px solid #cbd5e1;
 border-radius:10px;
 font-size:15px;
 }
@@ -87,18 +86,18 @@ background:#1d4ed8;
 }
 
 .result{
-margin-top:20px;
-padding:20px;
+margin-top:25px;
+padding:18px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
-border-radius:10px;
 background:#eff6ff;
+border-radius:10px;
 color:#1e40af;
 }
 
 .footer{
-margin-top:25px;
+margin-top:20px;
 text-align:center;
 color:#64748b;
 }
@@ -108,8 +107,8 @@ color:#64748b;
 grid-template-columns:1fr;
 }
 }
-
 </style>
+
 </head>
 
 <body>
@@ -117,18 +116,15 @@ grid-template-columns:1fr;
 <div class="container">
 
 <h1>🎓 Student Performance Prediction</h1>
-<p class="subtitle">
-Machine Learning Model using Support Vector Classifier (SVC)
-</p>
+
+<p>Support Vector Machine (SVC) Machine Learning Model</p>
 
 <form method="POST">
 
 <div class="form-grid">
 
-<select name="Student_Type" required>
-<option value="0">Regular Student</option>
-<option value="1">Part-Time Student</option>
-</select>
+<input type="number" step="0.1" name="Student_Type"
+placeholder="Student Type" required>
 
 <input type="number" step="0.1" name="Sleep_Hours"
 placeholder="Sleep Hours" required>
@@ -153,9 +149,7 @@ placeholder="Month" required>
 
 </div>
 
-<button type="submit">
-Predict Performance
-</button>
+<button type="submit">Predict Performance</button>
 
 </form>
 
@@ -166,7 +160,7 @@ Predict Performance
 {% endif %}
 
 <div class="footer">
-Developed by Pranita | Data Analyst & Machine Learning Project
+Developed by Pranita | Data Analyst
 </div>
 
 </div>
